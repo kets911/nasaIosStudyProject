@@ -32,7 +32,7 @@ class SomeController: UIViewController {
          print("------> Button Click")
         
         let viewController = UIApplication.shared.windows.first?.rootViewController as? RootViewController
-        print("------> UIApplication.shared.windows.first!.rootViewController as? RootViewController return is \(viewController)")
+        print("------> UIApplication.shared.windows.first!.rootViewController as? RootViewController return is \(viewController?.title)")
         viewController?.goToListScreen()
 //        AppDelegate.shared.rootViewController.[someMethod]()
     }

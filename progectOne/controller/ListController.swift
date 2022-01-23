@@ -25,6 +25,11 @@ class ListController: UIViewController {
         collectionView.dataSource = self
         
         collectionView.reloadData()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrowshape.turn.up.left.fill"), style: .plain, target: self, action: #selector(goToRoot))
+        
+        let logoutButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(goToRoot))
+        navigationItem.setLeftBarButton(logoutButton, animated: true)
     }
     
     override func loadView() {
@@ -39,6 +44,12 @@ class ListController: UIViewController {
         super.viewWillLayoutSubviews()
         print("viewWillLayoutSubviews() set view.bounds to frame")
         collectionView.frame = view.bounds
+    }
+    
+    @objc private func goToRoot() {
+        print("------------- goToRoot()")
+        let viewController = UIApplication.shared.windows.first?.rootViewController as? RootViewController
+        viewController?.goToMainScreen()
     }
 }
 
@@ -58,14 +69,53 @@ extension ListController: UICollectionViewDataSource {
             withReuseIdentifier: "\(MainListCell.self)", for: indexPath
         ) as! MainListCell
         let item = items[indexPath.row]
-        cell.title.text = item.title
+        
+//        cell.title.text = item.title
+//        cell.image.image = UIImage(systemName: "arrowshape.turn.up.left.fill")
+        
+        let title = UILabel(frame: CGRect(x: 110, y: 10, width: 200, height: 20))
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.text = item.title
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(systemName: "arrowshape.turn.up.left.fill")
+        cell.stack.addSubview(image)
+        cell.stack.addSubview(title)
+        // what is it 
+        cell.stack.axis = .vertical
+        cell.stack.spacing = 30
+        
+        cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_:))))
         
         cell.backgroundColor = .green
         print("insex: \(indexPath), item: \(item), cell: \(cell)")
         return cell
     }
     // swiftlint:enable force_cast
+
+    @objc func tap(_ sender: UITapGestureRecognizer) {
+
+       let location = sender.location(in: self.collectionView)
+       let indexPath = self.collectionView.indexPathForItem(at: location)
+
+       if let index = indexPath {
+           print("Got clicked on index: \(index)!")
+           
+           let rootVC = UIApplication.shared.windows.first?.rootViewController as? RootViewController
+           rootVC?.goToArtistInfoScreen(index: index)
+       }
+    }
 }
+
+//extension ListController: UICollectionViewDelegate {
+//    // called when clicked
+//    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+//        print("Got clicked!")
+//
+//        let rootVC = UIApplication.shared.windows.first?.rootViewController as? RootViewController
+//        rootVC?.goToArtistInfoScreen()
+//    }
+//}
 
 extension ListController: UICollectionViewDelegateFlowLayout {
     func collectionView(

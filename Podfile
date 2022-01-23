@@ -4,7 +4,7 @@
 target 'progectOne' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
-  pod 'AFNetworking', '0.9.1'
+  pod 'AFNetworking', '2.7.0'
 
   # Pods for progectOne
 

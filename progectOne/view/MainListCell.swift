@@ -9,13 +9,16 @@ import Foundation
 import UIKit
 
 class MainListCell: UICollectionViewCell {
-    let title = UILabel()
-    let image = UIImage()
+//    let title = UILabel()
+//    let image = UIImageView()
+    let stack = UIStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("MainListCell -> init with title: \(title)")
-        contentView.addSubview(title)
+//        print("MainListCell -> init with title: \(title)")
+//        contentView.addSubview(image)
+//        contentView.addSubview(title)
+        contentView.addSubview(stack)
     }
     
     required init?(coder: NSCoder) {
@@ -25,6 +28,8 @@ class MainListCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         print("MainListCell -> layoutSubviews()")
-        title.frame = contentView.bounds.inset(by: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16))
+//        image.frame = contentView.bounds.inset(by: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16))
+//        title.frame = contentView.bounds.inset(by: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16))
+        stack.frame = contentView.bounds.inset(by: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16))
     }
 }
